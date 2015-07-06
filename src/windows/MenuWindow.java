@@ -9,7 +9,16 @@ import javax.swing.JPanel;
 import components.CustomButton;
 import frame.Frame;
 
+/*
+ * Essa classe é o painel da janela Menu
+ */
+
 public class MenuWindow extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public MenuWindow() {
 	

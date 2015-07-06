@@ -8,7 +8,18 @@ import javax.swing.JButton;
 
 import frame.Frame;
 
+/*
+ * Essa classe é usada em todos os botões do jogo.
+ * Exceto nos botões do painel Central da GameWindow,
+ * esses são GameButtons.
+ */
+
 public class CustomButton extends JButton {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public CustomButton(String text, int fontBtnSize, ActionListener act) {
 		super(text);

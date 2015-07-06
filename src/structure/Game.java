@@ -2,6 +2,10 @@ package structure;
 
 import java.util.ArrayList;
 
+/*
+ * Essa classe cuida da lógica da classe GameWindow
+ */
+
 public class Game {
 
 	//Attributes
@@ -11,6 +15,8 @@ public class Game {
 	private int prevNumber = -1;
 	private Settings settings = null;
 	
+	private Line rightLine = null;
+
 	//Methods
 
 	public Game(Settings newSettings){
@@ -19,17 +25,19 @@ public class Game {
 		numOfLines = settings.getDifficulty();
 
 		for(int i = 0; i < numOfLines; i++) {
-			
+
 			int number = (int)(Math.random()*numOfLines);
 
 			while(number == prevNumber)
 				number = (int)(Math.random()*numOfLines);
 
 			prevNumber = number;
-			
+
 			lines.add(new Line(number, numOfLines));
-			
+
 		}
+
+		rightLine = lines.get(lines.size() - 1);
 	}
 
 	public void printLines() {
@@ -51,6 +59,8 @@ public class Game {
 		prevNumber = number;
 
 		lines.add(0,new Line(number, numOfLines));
+
+		rightLine = lines.get(lines.size() - 1);
 	}
 
 	//Getters and Setters
@@ -62,4 +72,12 @@ public class Game {
 	public int getNumOfLines() {
 		return numOfLines;
 	}	
+
+	public Settings getSettings() {
+		return settings;
+	}
+
+	public Line getRightLine() {
+		return rightLine;
+	}
 }

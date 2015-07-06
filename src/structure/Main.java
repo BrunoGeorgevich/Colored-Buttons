@@ -1,7 +1,7 @@
 package structure;
 
+import windows.GameWindow;
 import windows.MenuWindow;
-import windows.SettingsWindow;
 import frame.Frame;
 
 public class Main {
@@ -10,14 +10,5 @@ public class Main {
 		
 		Frame.frame.changeContentPanel(new MenuWindow());
 		
-//		Settings settings = new Settings("Médio", "Branco", "Preto", "zxc");
-//		
-//		Game game = new Game(settings);
-//		
-//		game.printLines();
-//
-//		System.out.println("###################");
-//		game.rightAnswer();
-//		game.printLines();
 	}
 }

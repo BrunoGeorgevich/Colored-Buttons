@@ -1,14 +1,12 @@
 package windows;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -18,19 +16,32 @@ import javax.swing.JRadioButton;
 import structure.Settings;
 import components.CustomButton;
 import components.KeyBinding;
+import components.MessageBox;
 import frame.Frame;
+
+/*
+ * Essa classe é o painel da janela Settings
+ */
 
 public class SettingsWindow extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Attributes
 	private ArrayList<JRadioButton> radioBtnList = new ArrayList<JRadioButton>(); 
+
+	private JComboBox<String> primaryComboBox = null;
+	private JComboBox<String> secondaryComboBox = null;
+	private KeyBinding binding = null;
 
 	//Methods
 
 	public SettingsWindow() {
 
 		setLayout(new BorderLayout(20,20));
-		
+
 		JPanel contentPanel = new JPanel(new GridLayout(0,1,20,20));
 		contentPanel.add(generateDifficultyPanel());
 		contentPanel.add(generateColorsPanel());
@@ -38,7 +49,7 @@ public class SettingsWindow extends JPanel {
 
 		add(contentPanel, "Center");
 		add(generateBottomBar(), "South");
-		
+
 	}
 
 	private JPanel generateDifficultyPanel() {
@@ -56,10 +67,15 @@ public class SettingsWindow extends JPanel {
 
 		JRadioButton easy = new JRadioButton("Fácil");
 		easy.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
+		easy.addActionListener(new RadioButtonActionListener());
+		
 		JRadioButton medium = new JRadioButton("Médio");
 		medium.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
+		medium.addActionListener(new RadioButtonActionListener());
+		
 		JRadioButton hard = new JRadioButton("Difícil");
 		hard.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
+		hard.addActionListener(new RadioButtonActionListener());
 
 		easy.setSelected(true);
 
@@ -93,12 +109,14 @@ public class SettingsWindow extends JPanel {
 		secondaryLbl.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
 
 		//Criando as ComboBox
-		String [] primaryColors = {"Preto", "Branco", "Azul"};
-		JComboBox<String> primaryComboBox = new JComboBox<String>(primaryColors);
+		String [] primaryColors = {"Preto", "Branco", "Azul", "Verde", "Vermelho", "Amarelo"};
+		primaryComboBox = new JComboBox<String>(primaryColors);
+		primaryComboBox.addActionListener(new ComboBoxActionListener());
 		primaryComboBox.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
 
-		String [] secondaryColors = {"Branco", "Preto", "Azul"};
-		JComboBox<String> secondaryComboBox = new JComboBox<String>(secondaryColors);
+		String [] secondaryColors = {"Branco", "Preto", "Azul", "Verde", "Vermelho", "Amarelo"};
+		secondaryComboBox = new JComboBox<String>(secondaryColors);
+		secondaryComboBox.addActionListener(new ComboBoxActionListener());
 		secondaryComboBox.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
 
 		mainPanel.add(primaryLbl);
@@ -119,9 +137,8 @@ public class SettingsWindow extends JPanel {
 		keysLbl.setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/30));
 
 		JPanel keysPanel = new JPanel(new GridLayout(1,0,0,20));
-		
-		KeyBinding binding = new components.KeyBinding(keysPanel, 
-				Settings.translateDifficulty(difficulty));
+
+		binding = new components.KeyBinding(keysPanel, Settings.translateDifficulty(difficulty));
 
 		mainPanel.add(keysLbl, "North");
 		mainPanel.add(keysPanel, "Center");
@@ -129,19 +146,19 @@ public class SettingsWindow extends JPanel {
 		return mainPanel;
 
 	}
-	
+
 	private JPanel generateBottomBar() {
 
 		JPanel bottomBar = new JPanel(new GridLayout(1,0,20,20));
 
 		bottomBar.add(new CustomButton("Back", 30, new BottomBarActionListener()));
-		
+
 		bottomBar.add(new JPanel());
 		bottomBar.add(new JPanel());
 		bottomBar.add(new JPanel());
-		
+
 		bottomBar.add(new CustomButton("Play", 30, new BottomBarActionListener()));
-		
+
 
 		return bottomBar;
 
@@ -155,20 +172,62 @@ public class SettingsWindow extends JPanel {
 
 		return null;
 	}
-	
+
+	private class RadioButtonActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			JRadioButton btn = (JRadioButton)e.getSource();
+			
+			binding.getKeysPanel().removeAll();
+			
+			binding = new components.KeyBinding(binding.getKeysPanel(), Settings.translateDifficulty(btn.getText()));
+			binding.getKeysPanel().revalidate();
+		}		
+	}
+
+	private class ComboBoxActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if(primaryComboBox.getSelectedItem().equals(secondaryComboBox.getSelectedItem())){
+				if(primaryComboBox.getSelectedItem().equals("Preto")) {
+					secondaryComboBox.setSelectedIndex(0);
+					primaryComboBox.setSelectedIndex(0);					
+				} else {
+					primaryComboBox.setSelectedIndex(0);
+					secondaryComboBox.setSelectedIndex(0);
+				}
+
+				String [] btns = {".",".",".",".","Ok"};
+				MessageBox.messageBox.alertMessage("Cores primária e secundária iguais!", btns);
+			}			
+		}
+	}
+
 	private class BottomBarActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			CustomButton btn = (CustomButton)e.getSource();
-			
-			if(btn.getText() == "Play")
-				Frame.frame.changeContentPanel(new GameWindow());
-			else if(btn.getText() == "Back")
+
+			if(btn.getText() == "Play") {
+
+				Settings settings = new Settings(getSelectedDifficulty(), 
+						(String)primaryComboBox.getSelectedItem(), 
+						(String)secondaryComboBox.getSelectedItem(),
+						binding.getKeys());
+
+				GameWindow.gameWindow = new GameWindow(settings);
+				Frame.frame.changeContentPanel(GameWindow.gameWindow);
+
+			} else if(btn.getText() == "Back")
 				Frame.frame.changeContentPanel(new MenuWindow());
 			else
-				System.out.println("ERRO MENU_BTN_ACTIONLISTENER!!");
-			
+				System.out.println("ERRO SETTINGS_BTN_ACTIONLISTENER!!");
+
 		}		
 	}
 }

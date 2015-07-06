@@ -2,6 +2,11 @@ package structure;
 
 import java.util.ArrayList;
 
+/*
+ * Essa classe representa, estruturalmente,
+ * as linahs da class Game
+ */
+
 public class Line {
 
 	private int rightNumber = -1;
@@ -20,15 +25,21 @@ public class Line {
 				numbers.add(new Integer(0));
 		}
 	}
-
-	public int getRightNumber(){
-		return rightNumber;
-	}
 	
 	public void print() {
 		for (Integer integer : numbers) {
 			System.out.print(integer + " ");
 		}
+	}
+
+	//Getters and Setters
+	
+	public ArrayList<Integer> getNumbers() {
+		return numbers;
+	}
+
+	public int getRightNumber(){
+		return rightNumber;
 	}
 
 }

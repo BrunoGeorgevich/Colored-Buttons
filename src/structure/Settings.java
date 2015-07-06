@@ -2,20 +2,35 @@ package structure;
 
 import java.awt.Color;
 
+/*
+ * Essa classe detém todas as configurações do usuário
+ */
+
 public class Settings {
 
 	private int difficulty = -1;
 	private Color primaryColor = null;
 	private Color secondaryColor = null;
 	private String keyBindings = null;
+	
+	private String contentSettings = "";
 
 	public Settings(String newDifficulty, String newPrimaryColor, String newSecondaryColor, String newKeyBindings) {
 		difficulty = translateDifficulty(newDifficulty);
 		primaryColor = translateColor(newPrimaryColor);
 		secondaryColor = translateColor(newSecondaryColor);
 		keyBindings = newKeyBindings;
+
+		contentSettings += newDifficulty + "\n";
+		contentSettings += newPrimaryColor + "\n";
+		contentSettings += newSecondaryColor + "\n";
+		contentSettings += newKeyBindings + "\n";
 	}
 
+	public String exportSettings() {
+			return contentSettings;
+	}
+	
 	public static int translateDifficulty(String difficulty) {
 		switch(difficulty) {
 		case "Fácil":
@@ -37,6 +52,12 @@ public class Settings {
 			return Color.BLACK;
 		case "Azul":
 			return Color.BLUE;
+		case "Verde":
+			return Color.GREEN;
+		case "Vermelho":
+			return Color.RED;
+		case "Amarelo":
+			return Color.YELLOW;
 		default:
 			return null;
 		}
