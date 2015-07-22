@@ -48,6 +48,10 @@ public class GameWindow extends JPanel {
 		gameManager = new Game(s);
 		gameWindow = this;
 		
+		if(Frame.frame.getKeyListeners().length != 0) {
+			Frame.frame.removeKeyListener(Frame.frame.getKeyListeners()[0]);
+		}
+		
 		Frame.frame.addKeyListener(new GameWindowKeyListener());
 		
 		setLayout(new BorderLayout(20,20));

@@ -22,13 +22,22 @@ public class KeyBinding {
 	private JPanel keysPanel = null;
 	private String keys = "";
 	
-	public KeyBinding(JPanel panel, int difficulty) {
+	public KeyBinding(JPanel panel, String newKeys, int difficulty) {
 			
 		keysPanel = panel;
 		
 		for(int i = 0; i < difficulty; i++) {
-			keysPanel.add(new KeyBindingCell(i + 1, defaultKeys.charAt(i)));
-			keys += defaultKeys.charAt(i);
+			
+			char c = 'a';
+			
+			if(i < newKeys.length()){
+				c = newKeys.charAt(i);
+			} else {
+				c = defaultKeys.charAt(i);
+			}
+
+			keysPanel.add(new KeyBindingCell(i + 1, c));
+			keys += c;
 		}
 		
 	}
