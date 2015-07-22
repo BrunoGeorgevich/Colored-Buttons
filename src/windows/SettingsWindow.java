@@ -240,10 +240,6 @@ public class SettingsWindow extends JPanel {
 
 				FileManager.file.writeFile(settings);
 				
-				if(GameWindow.gameWindow != null) {
-					
-				}
-				
 				GameWindow.gameWindow = new GameWindow(settings);
 				Frame.frame.changeContentPanel(GameWindow.gameWindow);
 

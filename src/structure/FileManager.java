@@ -112,7 +112,7 @@ public class FileManager extends File{
 	}
 
 	//Método responsavel por apenas alterar o record
-	public void writeFile(String content, String score) {
+	public void writeFile(Settings s, String score) {
 		try {
 
 			if (!this.exists()) {
@@ -120,6 +120,7 @@ public class FileManager extends File{
 				this.createNewFile();
 			}
 
+			String content = s.exportSettings();
 			content += score;
 
 			FileWriter fw = new FileWriter(this.getAbsoluteFile());
@@ -133,20 +134,6 @@ public class FileManager extends File{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	//Método responsavel por salvar o novo record
-	public void saveScore(String score) {
-
-		String newFile = "";
-
-		for(int i = 1; i < 5; i++) {
-			newFile += readFileLine(i);
-			newFile += "\n";
-		}
-
-		writeFile(newFile, score);
-
 	}
 
 }

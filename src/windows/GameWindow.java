@@ -13,12 +13,15 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import components.CustomButton;
 import components.GameButton;
+import components.GameTimer;
 import components.LineUi;
 import components.MessageBox;
 import frame.Frame;
+import structure.FileManager;
 import structure.Game;
 import structure.Settings;
 
@@ -39,7 +42,10 @@ public class GameWindow extends JPanel {
 
 	private TopBarCell scoreCell = null;
 	private TopBarCell recordCell = null;
-	private TopBarCell timeCell = null;
+	private TopBarCell timeCell = null;	
+	
+	private GameTimer timer = null;
+	private int time = 60;
 	
 	public static GameWindow gameWindow = null;
 	
@@ -63,8 +69,19 @@ public class GameWindow extends JPanel {
 
 		add(generateTopBar(), "North");
 		add(generateButtonsPanel(), "Center");
-		add(southArea, "South");
+		add(southArea, "South");	
+
+		recordCell.getContentLabel().setText(FileManager.file.readFileLine(5));
 		
+		timer = new GameTimer(250, ()-> {
+			if(time == 0) {
+				updateWrongAnswer();
+			} else {
+				time -= 1;
+				timeCell.getContentLabel().setText(String.valueOf(time));
+			}
+		});
+				
 	}
 
 	private JPanel generateTopBar() {
@@ -144,7 +161,7 @@ public class GameWindow extends JPanel {
 		bottomBar.add(new JPanel());
 		bottomBar.add(new JPanel());
 		bottomBar.add(new JPanel());
-		bottomBar.add(new CustomButton("Pause", 30, new BottomBarActionListener()));
+		bottomBar.add(new JPanel());
 		
 		return bottomBar;
 		
@@ -153,6 +170,17 @@ public class GameWindow extends JPanel {
 	public void updateRightAnswer() {
 		
 		gameManager.rightAnswer();
+		
+		int score = Integer.parseInt(scoreCell.contentLabel.getText());
+		int record = Integer.parseInt(recordCell.contentLabel.getText());
+		
+		if(score > record)
+			record = score;
+		
+		time++;
+		
+		scoreCell.contentLabel.setText(String.valueOf(score + 1));		
+		recordCell.contentLabel.setText(String.valueOf(record));
 		
 		BorderLayout layout = (BorderLayout)gameWindow.getLayout();
 		gameWindow.remove(layout.getLayoutComponent(BorderLayout.CENTER));
@@ -165,9 +193,11 @@ public class GameWindow extends JPanel {
 	public void updateWrongAnswer() {
 
 		Frame.frame.removeKeyListener(Frame.frame.getKeyListeners()[0]);
+		timer.cancel();
 		
 		String [] btns = {"Back", ".", ".", ".", "Replay"};
 		MessageBox.messageBox.alertMessage("Você perdeu!", btns);
+		
 	}
 	
 	public Game getGameManager() {
@@ -218,13 +248,18 @@ public class GameWindow extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			CustomButton btn = (CustomButton)e.getSource();
 			
-			if(btn.getText() == "Pause")
-				System.out.println("Pause!");
-			else if(btn.getText() == "Back")
-				Frame.frame.changeContentPanel(new SettingsWindow());
-			else
-				System.out.println("ERRO GAME_BTN_ACTIONLISTENER!!");
+			if(btn.getText() == "Back") {
+				FileManager.file.writeFile(GameWindow.gameWindow.getGameManager().getSettings(),
+						   GameWindow.gameWindow.getRecordCell().getContentLabel().getText());
 			
+				timer.cancel();
+				
+				Frame.frame.changeContentPanel(new SettingsWindow());
+			
+			} else {
+			
+				System.out.println("ERRO GAME_BTN_ACTIONLISTENER!!");
+			}
 		}		
 	}
 	

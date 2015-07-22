@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import structure.FileManager;
 import windows.GameWindow;
 import windows.SettingsWindow;
 import frame.Frame;
@@ -140,10 +141,16 @@ public class MessageBox extends JDialog{
 			messageBox.dispose();
 			
 			if(btn.getText() == "Ok") {}
-			else if(btn.getText() == "Back") {
+			else if(btn.getText() == "Back") {				
+				FileManager.file.writeFile(GameWindow.gameWindow.getGameManager().getSettings(),
+										   GameWindow.gameWindow.getRecordCell().getContentLabel().getText());
+				
 				Frame.frame.changeContentPanel(new SettingsWindow());
 			}
-			else if(btn.getText() == "Replay") {
+			else if(btn.getText() == "Replay") {				
+				FileManager.file.writeFile(GameWindow.gameWindow.getGameManager().getSettings(),
+										   GameWindow.gameWindow.getRecordCell().getContentLabel().getText());
+				
 				GameWindow.gameWindow = new GameWindow(GameWindow.gameWindow.getGameManager().getSettings());
 				Frame.frame.changeContentPanel(GameWindow.gameWindow);
 			}
