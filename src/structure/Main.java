@@ -1,14 +1,14 @@
 package structure;
 
-import windows.GameWindow;
-import windows.MenuWindow;
+import windows.LoginWindow;
 import frame.Frame;
+
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
-		Frame.frame.changeContentPanel(new MenuWindow());
+		Frame.frame.changeContentPanel(new LoginWindow());
 		
 	}
 }

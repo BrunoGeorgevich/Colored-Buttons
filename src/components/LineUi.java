@@ -2,7 +2,6 @@ package components;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
@@ -16,6 +15,10 @@ import structure.Line;
 
 public class LineUi extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GameButton rightButton = null;
 	
 	public LineUi(Line line, Color primaryColor, Color secondaryColor, ActionListener act) {

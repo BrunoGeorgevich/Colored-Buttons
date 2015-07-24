@@ -140,7 +140,9 @@ public class MessageBox extends JDialog{
 
 			messageBox.dispose();
 			
-			if(btn.getText() == "Ok") {}
+			if(btn.getText() == "Ok") {
+				messageBox.dispose();
+			}
 			else if(btn.getText() == "Back") {				
 				FileManager.file.writeFile(GameWindow.gameWindow.getGameManager().getSettings(),
 										   GameWindow.gameWindow.getRecordCell().getContentLabel().getText());

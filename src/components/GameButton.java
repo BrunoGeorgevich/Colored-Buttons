@@ -11,6 +11,10 @@ import javax.swing.JButton;
 
 public class GameButton extends JButton {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int isRight = -1;
 	
 	public GameButton(int num, ActionListener act) {

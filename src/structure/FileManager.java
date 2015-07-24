@@ -7,9 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import windows.GameWindow;
-
 public class FileManager extends File{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static FileManager file = new FileManager(System.getProperty("user.home") + "/settings.cbtn");
 	

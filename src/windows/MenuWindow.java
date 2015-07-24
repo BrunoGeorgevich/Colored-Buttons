@@ -25,9 +25,9 @@ public class MenuWindow extends JPanel {
 		setLayout(new GridLayout(4,3,20,20));
 
 		addBlankSpaces(4);
-		add(new CustomButton("Play", 10,new MenuBtnActionListener()));
+		add(new CustomButton("Jogar", 10,new MenuBtnActionListener()));
 		addBlankSpaces(2);
-		add(new CustomButton("Quit", 10,new MenuBtnActionListener()));
+		add(new CustomButton("Sair", 10,new MenuBtnActionListener()));
 		addBlankSpaces(4);
 		
 	}
@@ -45,10 +45,10 @@ public class MenuWindow extends JPanel {
 		
 			CustomButton btn = (CustomButton)e.getSource();
 			
-			if(btn.getText() == "Play")
+			if(btn.getText() == "Jogar")
 				Frame.frame.changeContentPanel(new SettingsWindow());
-			else if(btn.getText() == "Quit")
-				System.exit(0);
+			else if(btn.getText() == "Sair")
+				Frame.frame.changeContentPanel(new LoginWindow());
 			else
 				System.out.println("ERRO MENU_BTN_ACTIONLISTENER!!");
 			

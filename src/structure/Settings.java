@@ -1,6 +1,9 @@
 package structure;
 
 import java.awt.Color;
+import java.sql.SQLException;
+
+import com.brunogeorgevich.SQLConnection;
 
 /*
  * Essa classe detém todas as configurações do usuário
@@ -14,7 +17,7 @@ public class Settings {
 	private String keyBindings = null;
 	
 	private String contentSettings = "";
-
+	
 	public Settings(String newDifficulty, String newPrimaryColor, String newSecondaryColor, String newKeyBindings) {
 		difficulty = translateDifficulty(newDifficulty);
 		primaryColor = translateColor(newPrimaryColor);

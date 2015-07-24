@@ -3,6 +3,8 @@ package components;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
@@ -26,10 +28,36 @@ public class CustomButton extends JButton {
 
 		setBackground(Color.BLACK);
 		setForeground(Color.WHITE);
-		
+
+		addMouseListener(new CustomButtonMouseListener());
 		addActionListener(act);
 		
 		setFont(new Font("Arial", Font.BOLD, Frame.frame.FRAME_HEIGHT/fontBtnSize));
+	}
+
+	private class CustomButtonMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			setBackground(Color.BLUE);
+			setForeground(Color.WHITE);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			setBackground(Color.BLACK);
+			setForeground(Color.WHITE);			
+		}
+		
 	}
 	
 }
